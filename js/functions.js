@@ -1,36 +1,35 @@
 // 1 задание
-const funcLength = (string, maxLength) => {
+const checkStringLength = (string, maxLength) => {
   if(string.length <= maxLength){
     return true;
   }
+
   return false;
 };
 
-funcLength('проверяемая строка', 20); // true
+checkStringLength('проверяемая строка', 20); // true
 // Длина строки ровно 18 символов
-funcLength('проверяемая строка', 18); // true
+checkStringLength('проверяемая строка', 18); // true
 // Строка длиннее 10 символов
-funcLength('проверяемая строка', 10); // false
+checkStringLength('проверяемая строка', 10); // false
 
 // 2 задание
-const IsPalindrom = (string) => {
+const isPalindrom = (string) => {
   const normalizeString = string.replaceAll(' ', '').toLowerCase();
   let result = '';
   for(let i = normalizeString.length - 1; i >= 0; i--){
     result += normalizeString[i];
   }
-  if(result === normalizeString){
-    return true;
-  }
-  return false;
+
+  return result === normalizeString;
 };
 
 // Строка является палиндромом
-IsPalindrom('топот'); // true
+isPalindrom('топот'); // true
 // Несмотря на разный регистр, тоже палиндром
-IsPalindrom('ДовОд'); // true
+isPalindrom('ДовОд'); // true
 // Это не палиндром
-IsPalindrom('Кекс'); // false
+isPalindrom('Кекс'); // false
 
 // 3 задание
 
@@ -40,15 +39,15 @@ const extractDigitsFromString = (string) => {
     string = string.toString();
   }
   for(let i = 0; i < string.length; i++){
-    if(!isNaN(parseInt(string[i],10))){
+    if(!isNaN(parseInt(string[i], 10))){
       result += string[i];
     }
   }
   if(result === '') {
     return NaN;
   }
-  return parseInt(result,10);
 
+  return parseInt(result,10);
 };
 
 extractDigitsFromString('2023 год'); // 2023
