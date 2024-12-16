@@ -21,27 +21,32 @@ const getRandomArrayElement = (elements) => elements[getRandomInteger(0, element
 
 const generateUserComment = () => {
   let id = 1;
-  const userComment = () => ({
-    id: id,
-    avatar: `img/avatar-{${getRandomInteger(1,6)}}.svg`,
-    message: getRandomArrayElement(commentMassage),
-    name: getRandomArrayElement(authorName),
-  });
-  id++;
-  return userComment;
+  return () => {
+    const userComment = {
+      id: id,
+      avatar: `img/avatar-{${getRandomInteger(1,6)}}.svg`,
+      message: getRandomArrayElement(commentMassage),
+      name: getRandomArrayElement(authorName),
+    };
+    id++;
+    return userComment;
+  };
 };
+
 
 const createUserPhoto = () => {
   let id = 1;
-  const userPhoto = () => ({
-    id: id,
-    url: `photos/{${id}}.jpg`,
-    description: `Очень красивая фотография под номером ${id}. Мне очень понравилась.`,
-    numLikes: getRandomInteger(15, 200),
-    comments: Array.from({length: getRandomInteger(1,30)}, generateUserComment()),
-  });
-  id++;
-  return userPhoto;
+  return () => {
+    const userPhoto = {
+      id: id,
+      url: `photos/{${id}}.jpg`,
+      description: `Очень красивая фотография под номером ${id}. Мне очень понравилось.`,
+      numLikes: getRandomInteger(15, 200),
+      comments: Array.from({length: getRandomInteger(1,30)}, generateUserComment()),
+    };
+    id++;
+    return userPhoto;
+  };
 };
 
 
