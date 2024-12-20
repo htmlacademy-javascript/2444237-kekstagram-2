@@ -21,6 +21,7 @@ const getRandomArrayElement = (elements) => elements[getRandomInteger(0, element
 
 const generateUserComment = () => {
   let id = 1;
+
   return () => {
     const userComment = {
       id,
@@ -30,6 +31,7 @@ const generateUserComment = () => {
     };
 
     id++;
+
     return userComment;
   };
 };
@@ -37,6 +39,7 @@ const generateUserComment = () => {
 
 const createUserPhoto = () => {
   let id = 1;
+
   return () => {
     const userPhoto = {
       id,
@@ -47,6 +50,7 @@ const createUserPhoto = () => {
     };
 
     id++;
+
     return userPhoto;
   };
 };
