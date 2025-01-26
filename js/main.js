@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import { getArrayPhotos } from './create-array-photo.js';
+import {renderUserPhotos} from './render-photo.js';
 
-console.log(getArrayPhotos());
+const photos = getArrayPhotos();
 
+renderUserPhotos(photos);
 
