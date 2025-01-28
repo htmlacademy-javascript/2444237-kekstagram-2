@@ -8,7 +8,7 @@ const generateUserComment = () => {
   return () => {
     const userComment = {
       id,
-      avatar: `img/avatar-{${getRandomInteger(1, 6)}}.svg`,
+      avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
       message: getRandomArrayElement(COMMENT_MESSAGES),
       name: getRandomArrayElement(AUTHOR_NAMES),
     };
