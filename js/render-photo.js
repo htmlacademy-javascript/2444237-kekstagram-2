@@ -9,6 +9,7 @@ const renderUserPhotos = (photos) => {
     const userPhoto = photo.cloneNode(true);
     userPhoto.querySelector('.picture__img').src = `photos/${element.id}.jpg`;
     userPhoto.querySelector('.picture__img').alt = element.description;
+    userPhoto.querySelector('.picture__img').setAttribute('data-id', element.id);
     userPhoto.querySelector('.picture__likes').textContent = element.likes;
     userPhoto.querySelector('.picture__comments').textContent = element.comments.length;
 
