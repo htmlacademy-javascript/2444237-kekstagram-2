@@ -1,7 +1,6 @@
 const commentsList = document.querySelector('.social__comments');
 
-const renderUserComment = ((comments) => {
-  commentsList.innerHTML = '';
+const renderUserComments = ((comments) => {
   const fragment = document.createDocumentFragment();
 
   comments.forEach((element) => {
@@ -29,4 +28,4 @@ const renderUserComment = ((comments) => {
   commentsList.appendChild(fragment);
 });
 
-export {renderUserComment};
+export {renderUserComments};

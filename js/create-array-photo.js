@@ -25,7 +25,7 @@ const createUserPhoto = () => {
   return () => {
     const userPhoto = {
       id,
-      url: `photos/{${id}}.jpg`,
+      url: `photos/${id}.jpg`,
       description: `Очень красивая фотография под номером ${id}. Мне очень понравилось.`,
       likes: getRandomInteger(15, 200),
       comments: Array.from({length: getRandomInteger(1, 30)}, generateUserComment()),
