@@ -1,9 +1,12 @@
 const commentsList = document.querySelector('.social__comments');
+const showCommentCount = document.querySelector('.social__comment-shown-count');
+let shownComments = 0;
 
 const renderUserComments = ((comments) => {
   const fragment = document.createDocumentFragment();
-
+  // let commentCount = 0;
   comments.forEach((element) => {
+    let commentCount = 0;
     const comment = document.createElement('li');
     comment.classList.add('social__comment');
 
@@ -21,11 +24,15 @@ const renderUserComments = ((comments) => {
 
     comment.appendChild(avatarInfo);
     comment.appendChild(commentText);
+    commentCount++;
 
     fragment.appendChild(comment);
+    shownComments += commentCount;
+
   });
 
   commentsList.appendChild(fragment);
+  showCommentCount.textContent = shownComments;
 });
 
 export {renderUserComments};
