@@ -8,7 +8,7 @@ const closeButton = document.querySelector('.big-picture__cancel');
 const likesCount = document.querySelector('.likes-count');
 const photoDescription = document.querySelector('.social__caption');
 const totalCommentCount = document.querySelector('.social__comment-total-count');
-// const showCommentCount = document.querySelector('.social__comment-shown-count');
+const showCommentCount = document.querySelector('.social__comment-shown-count');
 const commentLoader = document.querySelector('.comments-loader');
 const commentsList = document.querySelector('.social__comments');
 
@@ -25,6 +25,7 @@ const renderBigPicture = (photoData) => {
 
   commentsList.innerHTML = '';
   renderUserComments(photoData.comments.slice(0, shownComments));
+  showCommentCount.textContent = commentsList.querySelectorAll('li').length;
 };
 
 const openBigPicture = (photoData) => {
