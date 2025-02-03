@@ -2,7 +2,6 @@ const commentsList = document.querySelector('.social__comments');
 
 const renderUserComments = ((comments) => {
   const fragment = document.createDocumentFragment();
-
   comments.forEach((element) => {
     const comment = document.createElement('li');
     comment.classList.add('social__comment');
