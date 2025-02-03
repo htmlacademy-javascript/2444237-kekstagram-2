@@ -9,6 +9,5 @@ const COMMENT_MESSAGES = [
 
 const AUTHOR_NAMES = ['Павел','Владимир','Валерия','Марина','Максим','Кирилл'];
 
-const COMMENT_COUNT_LOAD = 5;
 
-export { COMMENT_MESSAGES, AUTHOR_NAMES, COMMENT_COUNT_LOAD };
+export { COMMENT_MESSAGES, AUTHOR_NAMES };

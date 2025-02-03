@@ -1,5 +1,4 @@
 import { renderUserComments } from './render-comments.js';
-import { COMMENT_COUNT_LOAD } from './data.js';
 
 const pictures = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
@@ -11,9 +10,13 @@ const totalCommentCount = document.querySelector('.social__comment-total-count')
 const showCommentCount = document.querySelector('.social__comment-shown-count');
 const commentLoader = document.querySelector('.comments-loader');
 const commentsList = document.querySelector('.social__comments');
+const COMMENT_STEP_AMOUNT = 5;
+let shownComments = COMMENT_STEP_AMOUNT;
+let abortController;
 
-let shownComments = 5;
 const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const shownCommentsCount = () => (showCommentCount.textContent = commentsList.querySelectorAll('li').length);
 
 const renderBigPicture = (photoData) => {
   bigPicture.classList.remove('hidden');
@@ -25,19 +28,19 @@ const renderBigPicture = (photoData) => {
 
   commentsList.innerHTML = '';
   renderUserComments(photoData.comments.slice(0, shownComments));
-  showCommentCount.textContent = commentsList.querySelectorAll('li').length;
+  shownCommentsCount();
 };
 
 const openBigPicture = (photoData) => {
   document.body.classList.add('modal-open');
+  abortController = new AbortController();
   bigPicture.classList.remove('hidden');
-  shownComments = 5;
   commentsList.innerHTML = '';
   renderBigPicture(photoData);
 
   if (photoData.comments.length > 5) {
     commentLoader.classList.remove('hidden');
-    commentLoader.addEventListener('click', () => onLoaderCommentClick(photoData.comments));
+    commentLoader.addEventListener('click', () => onLoaderCommentClick(photoData.comments), {signal: abortController.signal});
   } else {
     commentLoader.classList.add('hidden');
   }
@@ -45,12 +48,12 @@ const openBigPicture = (photoData) => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-
 const closeBigPicture = () => {
   document.body.classList.remove('modal-open');
   bigPicture.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
-  commentLoader.removeEventListener('click', () => onLoaderCommentClick);
+  abortController.abort();
+  shownComments = COMMENT_STEP_AMOUNT;
 };
 
 const onPictureContainerClick = (evt, photos) => {
@@ -63,9 +66,10 @@ const onPictureContainerClick = (evt, photos) => {
 };
 
 function onLoaderCommentClick(comments) {
-  const commentsToRender = comments.slice(shownComments, shownComments + COMMENT_COUNT_LOAD);
+  const commentsToRender = comments.slice(shownComments, shownComments + COMMENT_STEP_AMOUNT);
   renderUserComments(commentsToRender);
-  shownComments += COMMENT_COUNT_LOAD;
+  shownComments += COMMENT_STEP_AMOUNT;
+  shownCommentsCount();
 
   if (shownComments >= comments.length) {
     commentLoader.classList.add('hidden');
