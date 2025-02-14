@@ -90,4 +90,4 @@ const showBigPicture = (photos) => {
   closeButton.addEventListener('click', () => onCloseButtonClick());
 };
 
-export { showBigPicture };
+export { showBigPicture, isEscapeKey };
