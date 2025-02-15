@@ -1,5 +1,4 @@
 import { renderUserComments } from './render-comments.js';
-
 const pictures = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');

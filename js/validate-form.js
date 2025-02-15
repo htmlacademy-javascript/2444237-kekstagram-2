@@ -1,4 +1,7 @@
 import { isEscapeKey } from './show-big-photo.js';
+import { onClickScale } from './scale-image.js';
+import './slider.js';
+
 const formChange = document.querySelector('.img-upload__overlay');
 const pictireForm = document.querySelector('.img-upload__form');
 const body = document.querySelector('body');
@@ -6,6 +9,12 @@ const imgUpload = document.querySelector('.img-upload__input');
 const formChangeBtnCancel = document.querySelector('.img-upload__cancel');
 const inputHashtags = document.querySelector('.text__hashtags');
 const inputDescription = document.querySelector('.text__description');
+
+
+const scaleSmaller = document.querySelector('.scale__control--smaller');
+const scaleBugger = document.querySelector('.scale__control--bigger');
+let abortController;
+
 
 const DESCRIPTION_LENGTH = 140;
 const HASHTAGS_LENGTH = 20;
@@ -48,10 +57,13 @@ const validateInputDescription = (value) => value.length <= 140;
 const getErrorMessageDescription = () => `Длина комментария не может привышать ${DESCRIPTION_LENGTH} символов`;
 
 const openForm = () => {
+  abortController = new AbortController();
   formChange.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
   formChangeBtnCancel.addEventListener('click', onCloseButtonClick);
+  scaleSmaller.addEventListener('click', () => onClickScale(false), {signal: abortController.signal});
+  scaleBugger.addEventListener('click', () => onClickScale(true), {signal: abortController.signal});
 };
 
 const closeForm = () => {
@@ -61,6 +73,7 @@ const closeForm = () => {
 
   document.removeEventListener('keydown', onDocumentKeydown);
   formChangeBtnCancel.removeEventListener('click', onCloseButtonClick);
+  abortController.abort();
 };
 
 
