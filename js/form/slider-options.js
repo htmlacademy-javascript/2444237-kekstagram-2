@@ -1,61 +1,46 @@
-const sliderOptionsDefault = {
-  range: {
-    min: 0,
-    max: 100,
-  },
-  start: 100,
-  step: 10,
-  connect: 'lower',
-};
-
-const sliderOptionsСhrome = {
+const SLIDER_OPTIONS_CHROME = {
   range: {
     min: 0,
     max: 1,
   },
   start: 1,
   step: 0.1,
-  connect: 'lower',
 };
 
-const sliderOptionsSepia = {
+const SLIDER_OPTIONS_SEPIA = {
   range: {
     min: 0,
     max: 1,
   },
   start: 1,
   step: 0.1,
-  connect: 'lower',
 };
 
-const sliderOptionsMarvin = {
+const SLIDER_OPTIONS_MARVIN = {
   range: {
     min: 0,
     max: 100,
   },
   start: 100,
-  step: 0.1,
-  connect: 'lower',
+  step: 1,
 };
 
-const sliderOptionsPhobos = {
+const SLIDER_OPTIONS_PHOBOS = {
   range: {
     min: 0,
     max: 3,
   },
   start: 3,
   step: 0.1,
-  connect: 'lower',
 };
 
-const sliderOptionsHeat = {
+const SLIDER_OPTIONS_HEAT = {
   range: {
     min: 1,
     max: 3,
   },
   start: 3,
   step: 0.1,
-  connect: 'lower',
 };
 
 const getStyleFilter = (effect, value) => {
@@ -76,12 +61,11 @@ const getStyleFilter = (effect, value) => {
 };
 
 const effects = {
-  none: sliderOptionsDefault,
-  chrome: sliderOptionsСhrome,
-  sepia: sliderOptionsSepia,
-  marvin: sliderOptionsMarvin,
-  phobos: sliderOptionsPhobos,
-  heat: sliderOptionsHeat,
+  chrome:SLIDER_OPTIONS_CHROME,
+  sepia: SLIDER_OPTIONS_SEPIA,
+  marvin: SLIDER_OPTIONS_MARVIN,
+  phobos: SLIDER_OPTIONS_PHOBOS,
+  heat: SLIDER_OPTIONS_HEAT,
 };
 
 export { effects, getStyleFilter };

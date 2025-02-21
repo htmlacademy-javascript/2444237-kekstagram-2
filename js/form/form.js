@@ -2,6 +2,7 @@ import { isEscapeKey } from '../util.js';
 import { activeScale, deactivateScale } from './scale-image.js';
 import { setupValidation, validateForm, resetValidation } from './validate-form.js';
 import './slider.js';
+import { initSlider, resetEffectSlider } from './slider.js';
 
 const imgUpload = document.querySelector('.img-upload__input');
 const formChangeBtnCancel = document.querySelector('.img-upload__cancel');
@@ -23,13 +24,14 @@ const openForm = () => {
 const closeForm = () => {
   formOverlay.classList.add('hidden');
   document.body.classList.remove('.modal-open');
-  imgUpload .value = '';
+  imgUpload.value = '';
 
   document.removeEventListener('keydown', onDocumentKeydown);
   formChangeBtnCancel.removeEventListener('click', onCloseButtonClick);
   resetValidation();
   deactivateScale();
-  imagePreview.style.transform = 'scale(1)';
+  resetEffectSlider();
+  imagePreview.style.transform = '';
 };
 
 function onCloseButtonClick () {
@@ -58,6 +60,7 @@ const onFormSubmit = (evt) => {
 
 export const initPhotoForm = () => {
   setupValidation();
+  initSlider();
   pictireForm.addEventListener('submit', onFormSubmit);
   imgUpload.addEventListener('change', onFormChange);
 };

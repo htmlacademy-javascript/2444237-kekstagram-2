@@ -6,54 +6,69 @@ const imagePreview = document.querySelector('.img-upload__preview');
 const sliderContainer = document.querySelector('.img-upload__effect-level');
 
 
-const resetEffectSlider = () => {
+export const resetEffectSlider = () => {
   imagePreview.style.removeProperty('filter');
-  const oldEffectClass = [...imagePreview.classList].find((effect) => effect.startsWith('effects__preview--'));
+  imagePreview.className = 'img-upload__preview effects__preview--none';
+};
 
-  imagePreview.classList.remove(oldEffectClass);
-  imagePreview.classList.add('effects__preview--none');
-  slider.setAttribute('disabled', true);
+const hideSlider = () => {
+  sliderContainer.classList.add('hidden');
 };
 
 const updateSliderOption = (sliderUI, effect) => {
+  if(effect === 'none') {
+    hideSlider();
+  }
   sliderUI.noUiSlider.updateOptions(effects[effect]);
 };
 
 const onEffectRadioBtnClick = (evt) => {
-  const currentRadioBtn = evt.target.closest('.effects__radio');
-  if(currentRadioBtn.value === 'none') {
-    resetEffectSlider();
-    sliderContainer.classList.add('hidden');
+  const currentEffect = evt.target.value;
+  if(currentEffect === 'none') {
+    hideSlider();
   } else {
     sliderContainer.classList.remove('hidden');
-    slider.removeAttribute('disabled');
-    const oldEffectClass = [...imagePreview.classList].find((effect) => effect.startsWith('effects__preview--'));
-    imagePreview.classList.remove(oldEffectClass);
-    imagePreview.classList.add(`effects__preview--${currentRadioBtn.value}`);
-    updateSliderOption(slider, currentRadioBtn.value);
+    imagePreview.className = `img-upload__preview effects__preview--${currentEffect}`;
+    updateSliderOption(slider, currentEffect);
   }
 };
 
-noUiSlider.create(slider, {
-  range: {
-    min: 0,
-    max: 100,
-  },
-  start: 100,
-  step: 1,
-  connect: 'lower',
-});
+export const createSlider = () => {
+  noUiSlider.create(slider, {
+    range: {
+      min: 0,
+      max: 100,
+    },
+    start: 100,
+    step: 1,
+    connect: 'lower',
+    format: {
+      to: function (value) {
+        if(Number.isInteger(value)) {
+          return value.toFixed(0);
+        }
+        return value.toFixed(1);
+      },
+      from: function (value) {
+        return parseFloat(value);
+      },
+    }
+  });
+};
 
+export const initSlider = () => {
+  createSlider();
+  hideSlider();
 
-slider.noUiSlider.on('update', () => {
-  inputEffectLevel.value = slider.noUiSlider.get();
+  effectRadioBtn.forEach((element) => {
+    element.addEventListener('click', onEffectRadioBtnClick);
+  });
 
-  const checkedEffect = document.querySelector('.effects__radio:checked');
-  if(checkedEffect) {
-    imagePreview.style.filter = getStyleFilter(checkedEffect.value, inputEffectLevel.value);
-  }
-});
-
-effectRadioBtn.forEach((element) => {
-  element.addEventListener('click', onEffectRadioBtnClick);
-});
+  slider.noUiSlider.on('update', () => {
+    inputEffectLevel.value = slider.noUiSlider.get();
+    const checkedEffect = document.querySelector('.effects__radio:checked');
+    if(checkedEffect) {
+      imagePreview.style.filter = getStyleFilter(checkedEffect.value, inputEffectLevel.value);
+    }
+  });
+};
