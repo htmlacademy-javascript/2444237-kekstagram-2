@@ -1,4 +1,5 @@
 import { renderUserComments } from './render-comments.js';
+import { isEscapeKey } from './util.js';
 
 const pictures = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
@@ -11,10 +12,9 @@ const showCommentCount = document.querySelector('.social__comment-shown-count');
 const commentLoader = document.querySelector('.comments-loader');
 const commentsList = document.querySelector('.social__comments');
 const COMMENT_STEP_AMOUNT = 5;
+
 let shownComments = COMMENT_STEP_AMOUNT;
 let abortController;
-
-const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const shownCommentsCount = () => (showCommentCount.textContent = commentsList.querySelectorAll('li').length);
 
@@ -90,4 +90,4 @@ const showBigPicture = (photos) => {
   closeButton.addEventListener('click', () => onCloseButtonClick());
 };
 
-export { showBigPicture, isEscapeKey };
+export { showBigPicture };

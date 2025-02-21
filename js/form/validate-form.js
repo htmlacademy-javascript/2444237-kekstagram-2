@@ -1,9 +1,4 @@
-import { isEscapeKey } from './show-big-photo.js';
-const formChange = document.querySelector('.img-upload__overlay');
 const pictireForm = document.querySelector('.img-upload__form');
-const body = document.querySelector('body');
-const imgUpload = document.querySelector('.img-upload__input');
-const formChangeBtnCancel = document.querySelector('.img-upload__cancel');
 const inputHashtags = document.querySelector('.text__hashtags');
 const inputDescription = document.querySelector('.text__description');
 
@@ -43,56 +38,21 @@ const validateInputHashtags = (value) => {
 
 };
 
-const validateInputDescription = (value) => value.length <= 140;
+const validateInputDescription = (value) => value.length <= DESCRIPTION_LENGTH;
 
 const getErrorMessageDescription = () => `Длина комментария не может привышать ${DESCRIPTION_LENGTH} символов`;
 
-const openForm = () => {
-  formChange.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-  document.addEventListener('keydown', onDocumentKeydown);
-  formChangeBtnCancel.addEventListener('click', onCloseButtonClick);
+const validateForm = () => {
+  pristine.validate();
 };
 
-const closeForm = () => {
-  formChange.classList.add('hidden');
-  body.classList.remove('.modal-open');
-  imgUpload .value = '';
-
-  document.removeEventListener('keydown', onDocumentKeydown);
-  formChangeBtnCancel.removeEventListener('click', onCloseButtonClick);
+const resetValidation = () => {
+  pristine.reset();
 };
 
-
-function onCloseButtonClick () {
-  closeForm();
-}
-
-function onDocumentKeydown(evt) {
-  if (isEscapeKey(evt) && inputHashtags !== document.activeElement && inputDescription !== document.activeElement) {
-    evt.preventDefault();
-    closeForm();
-  }
-}
-
-const onFormSubmit = (evt) => {
-  evt.preventDefault();
-  const isValid = pristine.validate();
-  if(isValid) {
-    // eslint-disable-next-line no-console
-    console.log(isValid);
-  }
-};
-
-const onFormChange = () => {
-  openForm();
-};
-
-export const initPhotoForm = () => {
+const setupValidation = () => {
   pristine.addValidator(inputHashtags, validateInputHashtags , getErrorMessageHashtag);
   pristine.addValidator(inputDescription , validateInputDescription , getErrorMessageDescription);
-  pictireForm.addEventListener('submit', onFormSubmit);
-  imgUpload.addEventListener('change', onFormChange);
 };
 
-
+export {validateForm, resetValidation, setupValidation};
