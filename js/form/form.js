@@ -1,8 +1,9 @@
 import { isEscapeKey } from '../util.js';
 import { activeScale, deactivateScale } from './scale-image.js';
 import { setupValidation, validateForm, resetValidation } from './validate-form.js';
-import './slider.js';
 import { initSlider, resetEffectSlider } from './slider.js';
+import { sendData } from '../api.js';
+import { sendPhotoMessage } from '../messages.js';
 
 const imgUpload = document.querySelector('.img-upload__input');
 const formChangeBtnCancel = document.querySelector('.img-upload__cancel');
@@ -49,12 +50,19 @@ const onFormChange = () => {
   openForm();
 };
 
+const sendFormData = async (form) => {
+  const formData = new FormData(form);
+  await sendData(formData);
+  closeForm();
+  sendPhotoMessage();
+  form.reset();
+};
+
 const onFormSubmit = (evt) => {
   evt.preventDefault();
   const isValid = validateForm();
-  if(isValid) {
-    // eslint-disable-next-line no-console
-    console.log(isValid);
+  if (isValid) {
+    sendFormData(evt.target);
   }
 };
 
