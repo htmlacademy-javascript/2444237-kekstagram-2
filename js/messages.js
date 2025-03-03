@@ -1,64 +1,53 @@
 import { isEscapeKey } from './util.js';
-const errorTemplate = document.querySelector('#error').content;
-const errorMessage = errorTemplate.querySelector('.error');
-const errorBtn = errorTemplate.querySelector('.error__button');
-const template = document.querySelector('#success').content;
-const successMessage = template.querySelector('.success');
-const successMessageBtn = template.querySelector('.success__button');
-const dataErrorMessageTemplate = document.querySelector('#data-error').content;
-const dataErrorMessage = dataErrorMessageTemplate.querySelector('.data-error');
 
-const removeMessage = (message) => {
-  message.remove();
-};
+const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
+const dataErrorMessageTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
+const successTemplate = document.querySelector('#success').content.querySelector('.success');
 
-const onSuccessButtonClick = (message) => {
-  removeMessage(message);
-};
-
-const onErrorButtonClick = (message) => {
-  removeMessage(message);
-};
-
-const closeMessage = () => {
-  if(document.body.contains(errorMessage)) {
-    errorMessage.remove();
+const removeMessageNode = () => {
+  const node = document.querySelector('.success, .error, .data-error');
+  if(node) {
+    node.remove();
   }
 };
 
-const onClickEsc = (evt) => {
+const onButtonClick = () => {
+  removeMessageNode();
+  document.removeEventListener('keydown', onClickKeydown);
+};
+
+function onClickKeydown (evt) {
   if(isEscapeKey(evt)) {
     evt.preventDefault();
-    closeMessage();
+    removeMessageNode();
+    document.removeEventListener('keydown', onClickKeydown);
   }
-};
+}
 
-export const sendErrorMessage = () => {
-  document.body.append(dataErrorMessage);
+export const loadDataErrorMessage = () => {
+  const node = dataErrorMessageTemplate.cloneNode(true);
+  document.body.append(node);
 
   setTimeout(() => {
-    closeMessage();
+    removeMessageNode();
   }, 5000);
 };
 
 export const loadPhotoErrorMessage = () => {
-  document.body.append(errorMessage);
-  document.addEventListener('keydown', onClickEsc);
-  errorBtn.addEventListener('click', () => onErrorButtonClick(errorMessage));
+  const node = errorMessageTemplate.cloneNode(true);
+  const errorMessageBtn = node.querySelector('.error__button');
 
-  setTimeout(() => {
-    closeMessage();
-    document.removeEventListener('keydown', onClickEsc);
-  }, 5000);
+  document.body.append(node);
+  document.addEventListener('keydown', onClickKeydown);
+  errorMessageBtn.addEventListener('click', onButtonClick);
 };
 
-export const sendPhotoMessage = () => {
-  document.body.append(successMessage);
-  document.addEventListener('keydown', onClickEsc);
-  successMessageBtn.addEventListener('click', () => onSuccessButtonClick(successMessage));
+export const successPhotoMessage = () => {
+  const node = successTemplate.cloneNode(true);
+  const successMessageBtn = node.querySelector('.success__button');
 
-  setTimeout(() => {
-    closeMessage();
-    document.removeEventListener('keydown', onClickEsc);
-  }, 5000);
+
+  document.body.append(node);
+  document.addEventListener('keydown', onClickKeydown);
+  successMessageBtn.addEventListener('click', onButtonClick);
 };

@@ -3,7 +3,7 @@ import { activeScale, deactivateScale } from './scale-image.js';
 import { setupValidation, validateForm, resetValidation } from './validate-form.js';
 import { initSlider, resetEffectSlider } from './slider.js';
 import { sendData } from '../api.js';
-import { sendPhotoMessage } from '../messages.js';
+import { loadPhotoErrorMessage, successPhotoMessage} from '../messages.js';
 
 const imgUpload = document.querySelector('.img-upload__input');
 const formChangeBtnCancel = document.querySelector('.img-upload__cancel');
@@ -12,6 +12,7 @@ const pictireForm = document.querySelector('.img-upload__form');
 const inputHashtags = document.querySelector('.text__hashtags');
 const inputDescription = document.querySelector('.text__description');
 const imagePreview = document.querySelector('.img-upload__preview img');
+const submitButton = document.querySelector('.img-upload__submit');
 
 
 const openForm = () => {
@@ -50,19 +51,21 @@ const onFormChange = () => {
   openForm();
 };
 
-const sendFormData = async (form) => {
-  const formData = new FormData(form);
-  await sendData(formData);
-  closeForm();
-  sendPhotoMessage();
-  form.reset();
-};
-
 const onFormSubmit = (evt) => {
   evt.preventDefault();
   const isValid = validateForm();
   if (isValid) {
-    sendFormData(evt.target);
+    const formData = new FormData(evt.target);
+    submitButton.disabled = true;
+    sendData(formData).then(() => {
+      closeForm();
+      successPhotoMessage();
+      pictireForm.reset();
+    }).catch(() => {
+      loadPhotoErrorMessage();
+    }).finally(() => {
+      submitButton.disabled = false;
+    });
   }
 };
 
