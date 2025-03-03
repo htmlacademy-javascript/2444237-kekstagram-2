@@ -42,13 +42,9 @@ const validateInputDescription = (value) => value.length <= DESCRIPTION_LENGTH;
 
 const getErrorMessageDescription = () => `Длина комментария не может привышать ${DESCRIPTION_LENGTH} символов`;
 
-const validateForm = () => {
-  pristine.validate();
-};
+const validateForm = () => pristine.validate();
 
-const resetValidation = () => {
-  pristine.reset();
-};
+const resetValidation = () => pristine.reset();
 
 const setupValidation = () => {
   pristine.addValidator(inputHashtags, validateInputHashtags , getErrorMessageHashtag);
