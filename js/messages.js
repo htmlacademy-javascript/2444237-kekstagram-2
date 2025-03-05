@@ -10,17 +10,17 @@ const removeMessageNode = () => {
     node.remove();
   }
 };
-
-const onButtonClick = () => {
+const closePopup = () => {
   removeMessageNode();
   document.removeEventListener('keydown', onClickKeydown);
 };
 
+const onButtonClick = () => closePopup();
+
 function onClickKeydown (evt) {
   if(isEscapeKey(evt)) {
     evt.preventDefault();
-    removeMessageNode();
-    document.removeEventListener('keydown', onClickKeydown);
+    closePopup();
   }
 }
 
@@ -33,7 +33,7 @@ export const loadDataErrorMessage = () => {
   }, 5000);
 };
 
-export const loadPhotoErrorMessage = () => {
+export const showErrorMessage = () => {
   const node = errorMessageTemplate.cloneNode(true);
   const errorMessageBtn = node.querySelector('.error__button');
 
@@ -42,12 +42,18 @@ export const loadPhotoErrorMessage = () => {
   errorMessageBtn.addEventListener('click', onButtonClick);
 };
 
-export const successPhotoMessage = () => {
+const onOverlayClick = (evt) => {
+  if(!evt.target.closest('.success__inner')) {
+    closePopup();
+  }
+};
+
+export const showSuccessMessage = () => {
   const node = successTemplate.cloneNode(true);
   const successMessageBtn = node.querySelector('.success__button');
 
-
   document.body.append(node);
+  node.addEventListener('click', onOverlayClick);
   document.addEventListener('keydown', onClickKeydown);
   successMessageBtn.addEventListener('click', onButtonClick);
 };

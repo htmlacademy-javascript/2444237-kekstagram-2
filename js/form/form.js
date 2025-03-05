@@ -3,7 +3,7 @@ import { activeScale, deactivateScale } from './scale-image.js';
 import { setupValidation, validateForm, resetValidation } from './validate-form.js';
 import { initSlider, resetEffectSlider } from './slider.js';
 import { sendData } from '../api.js';
-import { loadPhotoErrorMessage, successPhotoMessage} from '../messages.js';
+import { showErrorMessage, showSuccessMessage } from '../messages.js';
 
 const imgUpload = document.querySelector('.img-upload__input');
 const formChangeBtnCancel = document.querySelector('.img-upload__cancel');
@@ -59,10 +59,10 @@ const onFormSubmit = (evt) => {
     submitButton.disabled = true;
     sendData(formData).then(() => {
       closeForm();
-      successPhotoMessage();
+      showSuccessMessage();
       pictireForm.reset();
     }).catch(() => {
-      loadPhotoErrorMessage();
+      showErrorMessage();
     }).finally(() => {
       submitButton.disabled = false;
     });
