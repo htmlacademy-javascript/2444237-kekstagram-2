@@ -1,8 +1,9 @@
 import { isEscapeKey } from '../util.js';
 import { activeScale, deactivateScale } from './scale-image.js';
 import { setupValidation, validateForm, resetValidation } from './validate-form.js';
-import './slider.js';
 import { initSlider, resetEffectSlider } from './slider.js';
+import { sendData } from '../api.js';
+import { showErrorMessage, showSuccessMessage } from '../messages.js';
 
 const imgUpload = document.querySelector('.img-upload__input');
 const formChangeBtnCancel = document.querySelector('.img-upload__cancel');
@@ -11,6 +12,7 @@ const pictireForm = document.querySelector('.img-upload__form');
 const inputHashtags = document.querySelector('.text__hashtags');
 const inputDescription = document.querySelector('.text__description');
 const imagePreview = document.querySelector('.img-upload__preview img');
+const submitButton = document.querySelector('.img-upload__submit');
 
 
 const openForm = () => {
@@ -52,9 +54,18 @@ const onFormChange = () => {
 const onFormSubmit = (evt) => {
   evt.preventDefault();
   const isValid = validateForm();
-  if(isValid) {
-    // eslint-disable-next-line no-console
-    console.log(isValid);
+  if (isValid) {
+    const formData = new FormData(evt.target);
+    submitButton.disabled = true;
+    sendData(formData).then(() => {
+      closeForm();
+      showSuccessMessage();
+      pictireForm.reset();
+    }).catch(() => {
+      showErrorMessage();
+    }).finally(() => {
+      submitButton.disabled = false;
+    });
   }
 };
 
