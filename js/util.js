@@ -9,4 +9,26 @@ const getRandomArrayElement = (elements) => elements[getRandomInteger(0, element
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export { getRandomInteger, getRandomArrayElement, isEscapeKey };
+const sortPhotosByComments = (photos) => {
+  const sortedPhotos = [...photos].sort((a, b) => b.comments.length - a.comments.length);
+  return sortedPhotos;
+};
+
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+
+  return (...rest) => {
+
+    clearTimeout(timeoutId);
+
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+const sortRandomPhotos = (photos, count) => {
+  const randomPhotos = [...photos].sort(() => Math.random() - 0.5);
+  const sortedPhotos = randomPhotos.slice(0,count);
+  return sortedPhotos;
+};
+
+export { getRandomInteger, getRandomArrayElement, isEscapeKey, sortPhotosByComments, sortRandomPhotos ,debounce };
