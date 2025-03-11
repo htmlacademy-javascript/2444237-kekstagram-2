@@ -1,7 +1,6 @@
 const photoTemplateItem = document.querySelector('#picture').content;
 const photo = photoTemplateItem.querySelector('a');
 const pictures = document.querySelector('.pictures');
-const imgFilters = document.querySelector('.img-filters');
 const renderUserPhotos = (photos) => {
   const pictureList = document.createDocumentFragment();
   photos.forEach((element) => {
@@ -16,7 +15,6 @@ const renderUserPhotos = (photos) => {
   });
 
   pictures.append(pictureList);
-  imgFilters.classList.remove('img-filters--inactive');
 };
 
 export {renderUserPhotos};
