@@ -5,7 +5,10 @@ import { initSlider, resetEffectSlider } from './slider.js';
 import { sendData } from '../api.js';
 import { showErrorMessage, showSuccessMessage } from '../messages.js';
 
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+
 const imgUpload = document.querySelector('.img-upload__input');
+const imgUploadPreview = document.querySelector('.img-upload__preview img');
 const formChangeBtnCancel = document.querySelector('.img-upload__cancel');
 const formOverlay = document.querySelector('.img-upload__overlay');
 const pictireForm = document.querySelector('.img-upload__form');
@@ -48,7 +51,17 @@ function onDocumentKeydown(evt) {
 }
 
 const onFormChange = () => {
-  openForm();
+  const file = imgUpload.files[0];
+  const fileName = file.name.toLowerCase();
+  const fileExt = fileName.split('.').pop();
+  const matches = FILE_TYPES.includes(fileExt);
+  if(matches) {
+    openForm();
+    const url = URL.createObjectURL(file);
+    imgUploadPreview.src = url;
+  }else {
+    showErrorMessage();
+  }
 };
 
 const onFormSubmit = (evt) => {
