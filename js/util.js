@@ -1,12 +1,23 @@
-const getRandomInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
+export const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export const sortPhotosByComments = (photos) => {
+  const sortedPhotos = [...photos].sort((a, b) => b.comments.length - a.comments.length);
+  return sortedPhotos;
 };
 
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+export function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
 
-const isEscapeKey = (evt) => evt.key === 'Escape';
+  return (...rest) => {
 
-export { getRandomInteger, getRandomArrayElement, isEscapeKey };
+    clearTimeout(timeoutId);
+
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+export const sortRandomPhotos = (photos, count) => {
+  const randomPhotos = [...photos].sort(() => Math.random() - 0.5);
+  const sortedPhotos = randomPhotos.slice(0,count);
+  return sortedPhotos;
+};
