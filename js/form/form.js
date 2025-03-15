@@ -1,7 +1,7 @@
 import { isEscapeKey } from '../util.js';
 import { activeScale, deactivateScale } from './scale-image.js';
 import { setupValidation, validateForm, resetValidation } from './validate-form.js';
-import { initSlider, resetEffectSlider } from './slider.js';
+import { initSlider, resetEffectSlider, hideSlider } from './slider.js';
 import { sendData } from '../api.js';
 import { showErrorMessage, showSuccessMessage } from '../messages.js';
 
@@ -9,6 +9,7 @@ const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const imgUpload = document.querySelector('.img-upload__input');
 const imgUploadPreview = document.querySelector('.img-upload__preview img');
+const imgEffectsPreview = document.querySelectorAll('.effects__preview');
 const formChangeBtnCancel = document.querySelector('.img-upload__cancel');
 const formOverlay = document.querySelector('.img-upload__overlay');
 const pictireForm = document.querySelector('.img-upload__form');
@@ -34,6 +35,7 @@ const closeForm = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
   formChangeBtnCancel.removeEventListener('click', onCloseButtonClick);
   resetValidation();
+  hideSlider();
   deactivateScale();
   resetEffectSlider();
   imagePreview.style.transform = '';
@@ -50,8 +52,8 @@ function onDocumentKeydown(evt) {
   }
 }
 
-const onFormChange = () => {
-  const file = imgUpload.files[0];
+const onFormChange = (evt) => {
+  const file = evt.target.files[0];
   const fileName = file.name.toLowerCase();
   const fileExt = fileName.split('.').pop();
   const matches = FILE_TYPES.includes(fileExt);
@@ -59,8 +61,9 @@ const onFormChange = () => {
     openForm();
     const url = URL.createObjectURL(file);
     imgUploadPreview.src = url;
-  }else {
-    showErrorMessage();
+    imgEffectsPreview.forEach((effect) => {
+      effect.style.backgroundImage = `url(${url})`;
+    });
   }
 };
 
