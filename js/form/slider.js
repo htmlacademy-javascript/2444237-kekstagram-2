@@ -11,7 +11,7 @@ export const resetEffectSlider = () => {
   imagePreview.className = 'img-upload__preview effects__preview--none';
 };
 
-const hideSlider = () => {
+export const hideSlider = () => {
   sliderContainer.classList.add('hidden');
 };
 
