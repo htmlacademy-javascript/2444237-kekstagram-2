@@ -1,3 +1,5 @@
+const COMMENT_STEP_AMOUNT = 5;
+
 import { renderUserComments } from './render-comments.js';
 import { isEscapeKey } from './util.js';
 
@@ -11,7 +13,6 @@ const totalCommentCount = document.querySelector('.social__comment-total-count')
 const showCommentCount = document.querySelector('.social__comment-shown-count');
 const commentLoader = document.querySelector('.comments-loader');
 const commentsList = document.querySelector('.social__comments');
-const COMMENT_STEP_AMOUNT = 5;
 
 let shownComments = COMMENT_STEP_AMOUNT;
 let abortController;

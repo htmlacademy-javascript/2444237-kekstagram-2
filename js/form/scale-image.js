@@ -1,11 +1,12 @@
+const SCALE_STEP = 25;
+const SCALE_MIN = 25;
+const SCALE_MAX = 100;
+
 const scaleFormValue = document.querySelector('.scale__control--value');
 const imagePreview = document.querySelector('.img-upload__preview img');
 const scaleSmaller = document.querySelector('.scale__control--smaller');
 const scaleBugger = document.querySelector('.scale__control--bigger');
 
-const SCALE_STEP = 25;
-const SCALE_MIN = 25;
-const SCALE_MAX = 100;
 let abortController;
 
 const onClickScale = (isScaleApp) => {
@@ -21,14 +22,14 @@ const onClickScale = (isScaleApp) => {
   imagePreview.style.transform = `scale(${currentScaleValue / 100})`;
 };
 
-const activeScale = () => {
+const setActiveScale = () => {
   abortController = new AbortController();
   scaleSmaller.addEventListener('click', () => onClickScale(false), {signal: abortController.signal});
   scaleBugger.addEventListener('click', () => onClickScale(true), {signal: abortController.signal});
 };
 
-const deactivateScale = () => {
+const removeActiveScale = () => {
   abortController.abort();
 };
 
-export { activeScale, deactivateScale };
+export { setActiveScale, removeActiveScale };
