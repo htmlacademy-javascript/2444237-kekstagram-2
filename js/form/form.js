@@ -46,7 +46,9 @@ function onCloseButtonClick () {
 }
 
 function onDocumentKeydown(evt) {
-  if (isEscapeKey(evt) && inputHashtags !== document.activeElement && inputDescription !== document.activeElement) {
+  const isFormControl = inputHashtags !== document.activeElement && inputDescription !== document.activeElement;
+  const hasError = document.body.classList.contains('has-error');
+  if (isEscapeKey(evt) && isFormControl && !hasError) {
     evt.preventDefault();
     closeForm();
   }
