@@ -1,7 +1,7 @@
 import { effects, getStyleFilter } from './slider-options.js';
 const inputEffectLevel = document.querySelector('.effect-level__value');
 const slider = document.querySelector('.effect-level__slider');
-const effectRadioBtn = document.querySelectorAll('.effects__radio');
+const effectRadioButtons = document.querySelectorAll('.effects__radio');
 const imagePreview = document.querySelector('.img-upload__preview');
 const sliderContainer = document.querySelector('.img-upload__effect-level');
 
@@ -60,7 +60,7 @@ export const initSlider = () => {
   createSlider();
   hideSlider();
 
-  effectRadioBtn.forEach((element) => {
+  effectRadioButtons.forEach((element) => {
     element.addEventListener('click', onEffectRadioBtnClick);
   });
 

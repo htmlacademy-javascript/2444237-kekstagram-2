@@ -1,11 +1,11 @@
-const pictireForm = document.querySelector('.img-upload__form');
-const inputHashtags = document.querySelector('.text__hashtags');
-const inputDescription = document.querySelector('.text__description');
-
+const REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
 const DESCRIPTION_LENGTH = 140;
 const HASHTAGS_LENGTH = 20;
 const COUNT_HASHTAGS = 5;
 
+const pictireForm = document.querySelector('.img-upload__form');
+const inputHashtags = document.querySelector('.text__hashtags');
+const inputDescription = document.querySelector('.text__description');
 
 const pristine = new Pristine(pictireForm,{
   classTo: 'img-upload__field-wrapper',
@@ -23,7 +23,6 @@ const validateInputHashtags = (value) => {
   }
 
   const hashtags = value.split(' ');
-  const regex = /^#[a-zа-яё0-9]{1,19}$/i;
   const unigHashtags = new Set(hashtags);
 
   if(hashtags.length > 5) {
@@ -34,7 +33,7 @@ const validateInputHashtags = (value) => {
     return false;
   }
 
-  return hashtags.every((hashtag) => regex.test(hashtag));
+  return hashtags.every((hashtag) => REGEX.test(hashtag));
 
 };
 

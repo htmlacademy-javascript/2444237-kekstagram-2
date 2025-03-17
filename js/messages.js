@@ -13,6 +13,7 @@ const removeMessageNode = () => {
 const closePopup = () => {
   removeMessageNode();
   document.removeEventListener('keydown', onClickKeydown);
+  document.body.classList.remove('has-error');
 };
 
 const onButtonClick = () => closePopup();
@@ -37,6 +38,7 @@ export const showErrorMessage = () => {
   const node = errorMessageTemplate.cloneNode(true);
   const errorMessageBtn = node.querySelector('.error__button');
 
+  document.body.classList.add('has-error');
   document.body.append(node);
   document.addEventListener('keydown', onClickKeydown);
   errorMessageBtn.addEventListener('click', onButtonClick);
